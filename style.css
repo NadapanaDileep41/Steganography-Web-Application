@@ -1,0 +1,98 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #ede8f5; /* Background color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #ffffff; /* Container background color */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+h1, h2 {
+    color: #3d52a0; /* Header text color */
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+input, button {
+    padding: 10px;
+    border: 1px solid #8697c4; /* Border color */
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+}
+
+input[type="file"] {
+    border: none;
+    background-color: #adbbda; /* Background color for file input */
+    padding: 10px;
+    cursor: pointer;
+}
+
+button {
+    background-color: #7091e6; /* Button background color */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #3d52a0; /* Button hover color */
+}
+
+a {
+    color: #7091e6; /* Link color */
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#downloadEncrypted {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #7091e6; /* Background color */
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#downloadEncrypted:hover {
+    background-color: #3d52a0; /* Hover background color */
+}
+
+#downloadEncrypted i {
+    margin-right: 8px; /* Space between icon and text */
+    font-size: 18px; /* Icon size */
+}
+
+#decryptedText {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #3d52a0; /* Text color for decrypted message */
+}

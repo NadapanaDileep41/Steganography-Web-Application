@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steganography</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Add Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Steganography</h1>
+        <a href="#" onclick="showEncryptForm()">Encrypt</a> | <a href="#" onclick="showDecryptForm()">Decrypt</a>
+        
+        <div id="encryptForm" style="display:none;">
+            <h2>Encrypt</h2>
+            <form autocomplete="off">
+                <input type="file" id="encryptFile" accept="image/*">
+                <input type="text" id="encryptText" placeholder="Enter text to encrypt">
+                <input type="text" id="encryptKey" placeholder="Enter encryption key">
+                <button type="button" onclick="encryptImage()">Encrypt</button>
+            </form>
+            <canvas id="encryptCanvas" style="display:none;"></canvas>
+            <a id="downloadEncrypted" style="display:none;" download="encrypted.png">
+                <i class="fa-solid fa-download"></i> Download Encrypted Image
+            </a>
+        </div>
+        
+        <div id="decryptForm" style="display:none;">
+            <h2>Decrypt</h2>
+            <form autocomplete="off">
+                <input type="file" id="decryptFile" accept="image/*">
+                <input type="text" id="decryptKey" placeholder="Enter decryption key">
+                <button type="button" onclick="decryptImage()">Decrypt</button>
+            </form>
+            <p id="decryptedText"></p>
+        </div>
+    </div>
+<script src="script.js"></script>
+</body>
+</html>
