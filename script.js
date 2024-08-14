@@ -20,7 +20,8 @@ function encryptImage() {
         return;
     }
 
-    const encryptedText = xorEncrypt(text, key); // Encrypt text using XOR
+    const marker = "<END>";
+    const encryptedText = xorEncrypt(text + marker, key); // Encrypt text with marker using XOR
     const file = fileInput.files[0];
     const reader = new FileReader();
 
@@ -95,9 +96,8 @@ function decryptImage() {
                 const decryptedBin = extractText(ctx);
                 const decryptedText = xorEncrypt(decryptedBin, key); // Decrypt the extracted binary string using XOR
 
-                // Check if the decrypted text makes sense
                 if (isValidDecryptedText(decryptedText)) {
-                    document.getElementById('decryptedText').innerText = 'Decrypted Text: ' + decryptedText;
+                    document.getElementById('decryptedText').innerText = 'Decrypted Text: ' + decryptedText.slice(0, -5); // Remove marker
                 } else {
                     document.getElementById('decryptedText').innerText = 'Enter correct Decryption key';
                 }
@@ -145,8 +145,6 @@ function extractText(ctx) {
 }
 
 function isValidDecryptedText(text) {
-    // Add your logic to determine if the decrypted text is valid
-    // For example, check if it contains non-printable characters or looks like gibberish
-    // You can adjust this based on your specific use case
-    return /^[\x20-\x7E]+$/.test(text); // Simple check to see if text contains only printable ASCII characters
+    // Check if the text contains the marker "<END>"
+    return text.endsWith("<END>");
 }
