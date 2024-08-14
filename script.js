@@ -1,4 +1,3 @@
-
 function showEncryptForm() {
     document.getElementById('encryptForm').style.display = 'block';
     document.getElementById('decryptForm').style.display = 'none';
@@ -8,7 +7,6 @@ function showDecryptForm() {
     document.getElementById('encryptForm').style.display = 'none';
     document.getElementById('decryptForm').style.display = 'block';
 }
-
 
 function encryptImage() {
     const fileInput = document.getElementById('encryptFile');
@@ -22,6 +20,7 @@ function encryptImage() {
         return;
     }
 
+    const encryptedText = xorEncrypt(text, key); // Encrypt text using XOR
     const file = fileInput.files[0];
     const reader = new FileReader();
 
@@ -31,15 +30,14 @@ function encryptImage() {
             canvas.width = img.width;
             canvas.height = img.height;
             ctx.drawImage(img, 0, 0);
-            embedText(ctx, text, key);
+            embedText(ctx, encryptedText);
 
-            // Convert the canvas content to a Blob and generate a downloadable link
             canvas.toBlob(function(blob) {
                 const url = URL.createObjectURL(blob);
                 const downloadLink = document.getElementById('downloadEncrypted');
                 downloadLink.href = url;
-                downloadLink.download = 'encrypted.png'; // Set the default file name
-                downloadLink.style.display = 'inline-block'; // Make the link visible
+                downloadLink.download = 'encrypted.png';
+                downloadLink.style.display = 'inline-block';
             }, 'image/png');
         };
         img.src = event.target.result;
@@ -47,10 +45,15 @@ function encryptImage() {
     reader.readAsDataURL(file);
 }
 
+function xorEncrypt(text, key) {
+    let encrypted = '';
+    for (let i = 0; i < text.length; i++) {
+        encrypted += String.fromCharCode(text.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+    }
+    return encrypted;
+}
 
-
-
-function embedText(ctx, text, key) {
+function embedText(ctx, text) {
     const textBin = text.length.toString(2).padStart(16, '0') + text.split('').map(char => char.charCodeAt(0).toString(2).padStart(8, '0')).join('');
     let idx = 0;
     for (let i = 0; i < ctx.canvas.width; i++) {
@@ -89,8 +92,15 @@ function decryptImage() {
             canvas.height = img.height;
             ctx.drawImage(img, 0, 0);
             try {
-                const decryptedText = extractText(ctx, key);  // No need to specify text length
-                document.getElementById('decryptedText').innerText = 'Decrypted Text: ' + decryptedText;
+                const decryptedBin = extractText(ctx);
+                const decryptedText = xorEncrypt(decryptedBin, key); // Decrypt the extracted binary string using XOR
+
+                // Check if the decrypted text makes sense
+                if (isValidDecryptedText(decryptedText)) {
+                    document.getElementById('decryptedText').innerText = 'Decrypted Text: ' + decryptedText;
+                } else {
+                    document.getElementById('decryptedText').innerText = 'Enter correct Decryption key';
+                }
             } catch (error) {
                 document.getElementById('decryptedText').innerText = 'Error: ' + error.message;
             }
@@ -100,7 +110,7 @@ function decryptImage() {
     reader.readAsDataURL(file);
 }
 
-function extractText(ctx, key) {
+function extractText(ctx) {
     let textBin = '';
     let idx = 0;
     let textLen = 0;
@@ -112,14 +122,12 @@ function extractText(ctx, key) {
             textBin += (pixel.data[0] & 1).toString();
             idx++;
 
-            // Read the length prefix (first 16 bits)
             if (!lengthRead && idx === 16) {
                 textLen = parseInt(textBin, 2);
                 textBin = '';
                 lengthRead = true;
             }
 
-            // Read the actual text based on the length
             if (lengthRead && idx >= 16 + textLen * 8) {
                 const chars = [];
                 for (let k = 0; k < textBin.length; k += 8) {
@@ -134,4 +142,11 @@ function extractText(ctx, key) {
         }
     }
     throw new Error('No hidden message found in the image.');
+}
+
+function isValidDecryptedText(text) {
+    // Add your logic to determine if the decrypted text is valid
+    // For example, check if it contains non-printable characters or looks like gibberish
+    // You can adjust this based on your specific use case
+    return /^[\x20-\x7E]+$/.test(text); // Simple check to see if text contains only printable ASCII characters
 }
