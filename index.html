@@ -7,6 +7,22 @@
     <link rel="stylesheet" href="style.css">
     <!-- Add Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+      <style>
+    a {
+      font-size: 20px; /* Adjust size as needed */
+      text-decoration: none; /* Optional: remove underline */
+      color: royalblue; /* Adjust color */
+      padding: 10px 15px; /* Add padding for better clickability */
+      border: 2px solid royalblue; /* Optional: Add border for emphasis */
+      border-radius: 5px; /* Optional: Rounded corners */
+      display: inline-block; /* Ensures padding and borders work well */
+    }
+    a:hover {
+      background-color: #4A8BDF; /* Add hover effect */
+      color: white; /* Change text color on hover */
+    }
+  </style>
+
 </head>
 <body>
     <div class="container">
@@ -14,7 +30,7 @@
         <a href="#" onclick="showEncryptForm()">Encrypt</a> | <a href="#" onclick="showDecryptForm()">Decrypt</a>
         
         <div id="encryptForm" style="display:none;">
-            <h2>Encrypt</h2>
+            <h2>Encryption</h2>
             <form autocomplete="off">
                 <input type="file" id="encryptFile" accept="image/*">
                 <input type="text" id="encryptText" placeholder="Enter text to encrypt">
@@ -28,7 +44,7 @@
         </div>
         
         <div id="decryptForm" style="display:none;">
-            <h2>Decrypt</h2>
+            <h2>Decryption</h2>
             <form autocomplete="off">
                 <input type="file" id="decryptFile" accept="image/*">
                 <input type="text" id="decryptKey" placeholder="Enter decryption key">
